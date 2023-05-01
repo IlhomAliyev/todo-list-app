@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
 import './App.scss';
-import ToDoList, { TaskType } from './components/ToDoList';
+import ToDoList, { TaskType } from './components/ToDoList/ToDoList';
 import { v1 } from 'uuid';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
+type ToDoListTypes = {
+  id: string,
+  title: string,
+  filter: FilterValuesType,
+}
+
 const App = () => {
   const [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: v1(), title: 'HTML & CSS', isDone: false },
-    { id: v1(), title: 'JS', isDone: true },
-    { id: v1(), title: 'React JS', isDone: true },
-    { id: v1(), title: 'Redux', isDone: false },
-    { id: v1(), title: 'GraphQL', isDone: false },
+    { id: v1(), title: 'Mercedes-Benz', isDone: false },
+    { id: v1(), title: 'AUDI', isDone: true },
+    { id: v1(), title: 'BMW', isDone: true },
+    { id: v1(), title: 'Tesla', isDone: false },
+    { id: v1(), title: 'Rolls-Royce', isDone: false },
   ]);
 
   const [filter, setFilter] = useState<FilterValuesType>('all');
@@ -36,8 +42,7 @@ const App = () => {
     if (task) {
       task.isDone = isDone;
     }
-    let tasksCopy = [...tasks]
-    setTasks(tasksCopy);
+    setTasks([...tasks]);
   };
 
   let tasksForTodoList = tasks;
@@ -49,16 +54,24 @@ const App = () => {
     tasksForTodoList = tasks.filter((task) => task.isDone === false);
   }
 
+  let TODOLISTS: Array<ToDoListTypes> = [
+    { id: v1(), title: 'Cars', filter: 'all' },
+    { id: v1(), title: 'Watches', filter: 'active' },
+  ];
+
   return (
     <div className="App">
-      <ToDoList
-        title="What to learn"
-        tasks={tasksForTodoList}
-        removeTask={removeTask}
-        addTask={addTask}
-        changeFilter={changeFilter}
-        changeTaskStatus={changeStatus}
-      />
+      {TODOLISTS.map((eachToDo) => (
+        <ToDoList
+          filter={eachToDo.filter}
+          title={eachToDo.title}
+          tasks={tasksForTodoList}
+          removeTask={removeTask}
+          addTask={addTask}
+          changeFilter={changeFilter}
+          changeTaskStatus={changeStatus}
+        />
+      ))}
       <button
         id="theme-button"
         onClick={() => document.body.classList.toggle('_dark')}

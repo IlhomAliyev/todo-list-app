@@ -1,0 +1,18 @@
+$primary-color: royalblue;
+$text-color: black;
+$back-color: #fff;
+
+body {
+  background-color: $back-color;
+
+  color: $text-color;
+}
+
+body._dark {
+  $primary-color: teal;
+  $text-color: white;
+  $back-color: #1e1e1e;
+
+  background-color: $back-color;
+  color: $text-color;
+}

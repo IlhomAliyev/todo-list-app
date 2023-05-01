@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { FilterValuesType } from '../App';
+import { FilterValuesType } from '../../App';
+import './ToDoList.scss';
 
 export type TaskType = {
   id: string;
@@ -10,6 +11,7 @@ export type TaskType = {
 type PropsType = {
   title: string;
   tasks: Array<TaskType>;
+  filter: FilterValuesType;
 
   removeTask: (id: string) => void;
   addTask: (title: string) => void;
@@ -19,25 +21,24 @@ type PropsType = {
 
 const ToDoList = (props: PropsType) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
-
-  const onEnterKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'Enter' && newTaskTitle !== '') {
-      props.addTask(newTaskTitle);
-      setNewTaskTitle('');
-    } else if (event.code === 'Enter' && newTaskTitle === '') {
-      alert('The name of the task is not entered!');
-    }
-  };
+  const [error, setError] = useState<string | null>(null);
 
   const onInputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTaskTitle(event.target.value);
+    setError(null);
+  };
+
+  const onEnterKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === 'Enter' && newTaskTitle.trim() !== '') {
+      onAddButtonClickHandler();
+    }
   };
 
   const onAddButtonClickHandler = () => {
-    if (newTaskTitle === '') {
-      alert('The name of the task is not entered!');
+    if (newTaskTitle.trim() === '') {
+      setError('Title is required!');
     } else {
-      props.addTask(newTaskTitle);
+      props.addTask(newTaskTitle.trim());
       setNewTaskTitle('');
     }
   };
@@ -51,6 +52,7 @@ const ToDoList = (props: PropsType) => {
       <h3>{props.title}</h3>
       <div className="input-wrapper">
         <input
+          // className='error'
           value={newTaskTitle}
           onChange={onInputChangeHandler}
           onKeyUp={onEnterKeyUpHandler}
@@ -59,6 +61,8 @@ const ToDoList = (props: PropsType) => {
         />
         <button onClick={onAddButtonClickHandler}>+</button>
       </div>
+      {error && <h4 className="error-message">{error}</h4>}
+      {/* <div className="error-message">Title is required!</div> */}
       <ul className="ToDoList__list">
         {props.tasks.length ? (
           props.tasks.map((task) => {
@@ -66,12 +70,14 @@ const ToDoList = (props: PropsType) => {
               props.removeTask(task.id);
             };
 
-            const isDoneChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+            const isDoneChangeHandler = (
+              event: ChangeEvent<HTMLInputElement>
+            ) => {
               props.changeTaskStatus(task.id, event.currentTarget.checked);
             };
 
             return (
-              <li key={task.id}>
+              <li className={task.isDone ? '_isDone' : ''} key={task.id}>
                 <input
                   type="checkbox"
                   checked={task.isDone}
@@ -89,9 +95,24 @@ const ToDoList = (props: PropsType) => {
         )}
       </ul>
       <div className="buttons-wrapper">
-        <button onClick={allFilter}>All</button>
-        <button onClick={activeFilter}>Active</button>
-        <button onClick={completedFilter}>Completed</button>
+        <button
+          className={props.filter === 'all' ? '_active' : ''}
+          onClick={allFilter}
+        >
+          All
+        </button>
+        <button
+          className={props.filter === 'active' ? '_active' : ''}
+          onClick={activeFilter}
+        >
+          Active
+        </button>
+        <button
+          className={props.filter === 'completed' ? '_active' : ''}
+          onClick={completedFilter}
+        >
+          Completed
+        </button>
       </div>
     </div>
   );
