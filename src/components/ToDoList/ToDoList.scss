@@ -45,7 +45,8 @@
       width: 100%;
 
       &:hover {
-        // transform: scale(1.05);
+        background-color: var(--primary-color);
+        color: white;
       }
 
       &:not(:last-child) {

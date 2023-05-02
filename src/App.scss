@@ -8,10 +8,13 @@
 
 body {
   background-color: white;
+
 }
 
 input,
 button {
+  font-size: 18px;
+  line-height: 100%;
   padding: 5px 10px;
   background-color: transparent;
   color: inherit;
@@ -43,13 +46,15 @@ button {
   position: relative;
   padding: 50px;
   color: var(--text-color);
+  height: 100vh;
+  width: 100vw;
 }
 
 .App._dark {
-  --primary-color: teal;
-  --text-color: black;
-  --back-color: #1e1e1e;
-  --back-blur-color: rgba(255, 255, 255, 0.5);
+  --primary-color: royalblue;
+  --text-color: white;
+  --back-color: #fff;
+  --back-blur-color: rgba(0, 0, 0, 0.5);
 }
 
 .grid-container {
@@ -58,19 +63,14 @@ button {
   gap: 20px;
   justify-content: center;
   align-items: start;
-  background-color: var(--back-blur-color);
-  padding: 30px;
-  border-radius: 30px;
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1050px) {
   .App {
     padding: 50px 20px;
   }
 
   .grid-container {
-    padding: 10px;
-    border-radius: 20px;
     grid-template: auto / 1fr;
   }
 }
@@ -81,30 +81,6 @@ button {
   border: 3px solid red;
   border-radius: 20px;
   padding: 10px 20px;
-}
-
-#theme-button {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  color: black;
-
-  &:hover {
-    color: white;
-  }
-}
-
-#background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -10;
-  width: 100%;
-  object-fit: cover;
 }
 
 .taskItem-enter {
@@ -120,11 +96,35 @@ button {
 
 .taskItem-exit {
   opacity: 1;
-
 }
 
 .taskItem-exit-active {
   opacity: 0;
   transform: translateY(200px);
   transition: all 300ms ease-in;
+}
+
+#theme-button {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border: 2px solid var(--primary-color);
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0 0 10px 0;
+
+  &:hover {
+    color: white;
+  }
+}
+
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  width: 100%;
+  object-fit: cover;
 }
