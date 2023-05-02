@@ -1,11 +1,29 @@
 @import './../../color-variables.scss';
 
 .ToDoList {
-  border-width: 2px;
-  border-style: solid;
-
+  position: relative;
   border-radius: 15px;
   padding: 20px;
+  background-color: var(--back-blur-color);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 5px gray, inset 0 0 5px gray;
+
+  #remove-to-do {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    border-radius: 10px;
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border: 2px solid tomato;
+
+    &:hover {
+      background-color: tomato;
+    }
+  }
 
   h3 {
     margin-bottom: 10px;
@@ -14,27 +32,20 @@
   &__list {
     margin-bottom: 10px;
 
-    input {
-      cursor: pointer;
-      margin-right: 10px;
-      transform: scale(1.5);
-    }
-
-    li {
+    .taskItem {
       list-style: none;
-      border: 2px solid $primary-color;
+      border: 2px solid var(--primary-color);
       border-radius: 10px;
-      padding: 5px 5px 5px 12px;
-      transition: 300ms;
+      padding: 5px;
+      // transition: 300ms;
 
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      gap: 5px;
+      width: 100%;
 
       &:hover {
-        // background-color: $primary-color;
-        // color: white;
-        transform: scale(1.05);
+        // transform: scale(1.05);
       }
 
       &:not(:last-child) {
@@ -45,10 +56,42 @@
         opacity: 0.5;
       }
 
-      span {
-        border-radius: 5px;
+      input[type='checkbox'] {
+        cursor: pointer;
+        border: 5px solid red;
+        flex: 0 1 13%;
+        align-self: center;
+        padding: 0;
+        transform: scale(1.5);
+      }
+
+      input.taskTitle {
+        flex: 1 0 auto;
+
         padding: 5px 15px;
-        box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
+        text-align: center;
+        border-radius: 5px;
+        padding: 0;
+        border: none;
+        transition: 300ms;
+
+        &:hover {
+          box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
+        }
+      }
+
+      #delete-btn {
+        flex: 0 1 13%;
+
+        border-radius: 5px;
+        padding: 5px;
+        height: 30px;
+        width: 30px;
+        border: 2px solid tomato;
+
+        &:hover {
+          background-color: tomato;
+        }
       }
     }
   }
@@ -64,10 +107,14 @@
   input {
     flex: 1 0 auto;
     padding: 10px 15px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
   }
 
   button {
     font-size: 24px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
   }
 }
 
@@ -76,21 +123,11 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+
   button {
     flex: 0 1 33%;
-  }
-}
-
-#delete-btn {
-  border-radius: 5px;
-  padding: 5px;
-  height: 30px;
-  width: 30px;
-  margin-left: 10px;
-  border: 2px solid tomato;
-
-  &:hover {
-    background-color: tomato;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
   }
 }
 

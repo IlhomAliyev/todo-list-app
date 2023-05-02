@@ -1,18 +1,11 @@
-$primary-color: royalblue;
-$text-color: black;
-$back-color: #fff;
+// $primary-color: royalblue;
+// $text-color: white;
+// $back-color: #fff;
+// $back-blur-color: rgba(0, 0, 0, 0.5);
 
-body {
-  background-color: $back-color;
-
-  color: $text-color;
-}
-
-body._dark {
-  $primary-color: teal;
-  $text-color: white;
-  $back-color: #1e1e1e;
-
-  background-color: $back-color;
-  color: $text-color;
+:root {
+  --primary-color: royalblue;
+  --text-color: white;
+  --back-color: #fff;
+  --back-blur-color: rgba(0, 0, 0, 0.5);
 }

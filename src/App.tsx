@@ -1,83 +1,153 @@
-import { useEffect, useState } from 'react';
-import './App.scss';
-import ToDoList, { TaskType } from './components/ToDoList/ToDoList';
+import { useState } from 'react';
 import { v1 } from 'uuid';
+import './App.scss';
+import ToDoList from './components/ToDoList/ToDoList';
+import image from './img/bg.jpg';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
-type ToDoListTypes = {
-  id: string,
-  title: string,
-  filter: FilterValuesType,
-}
+export type ToDoListTypes = {
+  id: string;
+  title: string;
+  filter: FilterValuesType;
+};
 
 const App = () => {
-  const [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: v1(), title: 'Mercedes-Benz', isDone: false },
-    { id: v1(), title: 'AUDI', isDone: true },
-    { id: v1(), title: 'BMW', isDone: true },
-    { id: v1(), title: 'Tesla', isDone: false },
-    { id: v1(), title: 'Rolls-Royce', isDone: false },
+  const toDoListID1 = v1();
+  const toDoListID2 = v1();
+  const toDoListID3 = v1();
+
+  const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>([
+    { id: toDoListID1, title: 'Cars', filter: 'all' },
+    { id: toDoListID2, title: 'Watches', filter: 'all' },
+    { id: toDoListID3, title: 'Movies', filter: 'all' },
   ]);
 
-  const [filter, setFilter] = useState<FilterValuesType>('all');
+  const [tasksObj, setTasksObj] = useState({
+    [toDoListID1]: [
+      { id: v1(), title: 'Mercedes-Benz', isDone: false },
+      { id: v1(), title: 'AUDI', isDone: true },
+      { id: v1(), title: 'BMW', isDone: true },
+      { id: v1(), title: 'Tesla', isDone: false },
+      { id: v1(), title: 'Rolls-Royce', isDone: false },
+    ],
+    [toDoListID2]: [
+      { id: v1(), title: 'CASIO', isDone: true },
+      { id: v1(), title: 'Patek Philippe', isDone: true },
+      { id: v1(), title: 'OMEGA', isDone: false },
+      { id: v1(), title: 'TISSOT', isDone: false },
+      { id: v1(), title: 'Longines', isDone: true },
+    ],
+    [toDoListID3]: [
+      { id: v1(), title: 'Interstellar', isDone: true },
+      { id: v1(), title: 'Inception', isDone: true },
+      { id: v1(), title: 'Star Wars', isDone: false },
+      { id: v1(), title: 'The Lord of the Rings', isDone: false },
+      { id: v1(), title: 'Sherlock', isDone: true },
+    ],
+  });
 
-  const removeTask = (id: string) => {
+  const removeToDoList = (toDoListID: string) => {
+    let filteredAllToDoLists = allToDoLists.filter(
+      (exactToDoList) => exactToDoList.id !== toDoListID
+    );
+    setAllToDoLists(filteredAllToDoLists);
+
+    delete tasksObj[toDoListID];
+    setTasksObj({ ...tasksObj });
+  };
+  //! AIM
+  //todo нужно оптимизировать (при вводе обновляется весь объект tasksObj)
+  const changeTaskName = (toDoListID: string, id: string, value: string) => {
+    let task = tasksObj[toDoListID].find((t) => t.id === id);
+    if (task) {
+      task.title = value;
+      setTasksObj({ ...tasksObj }); //todo
+    }
+  };
+  //! AIM
+  const removeTask = (id: string, toDoListID: string) => {
+    let tasks = tasksObj[toDoListID];
     let filteredTasks = tasks.filter((task) => task.id !== id);
-    setTasks(filteredTasks);
+    tasksObj[toDoListID] = filteredTasks;
+    setTasksObj({ ...tasksObj });
   };
 
-  const addTask = (title: string) => {
+  const addTask = (title: string, toDoListID: string) => {
     let newTask = { id: v1(), title: title, isDone: false };
+    let tasks = tasksObj[toDoListID];
     let newTasks = [newTask, ...tasks];
-    setTasks(newTasks);
+    tasksObj[toDoListID] = newTasks;
+    setTasksObj({ ...tasksObj });
   };
 
-  const changeFilter = (value: FilterValuesType) => {
-    setFilter(value);
+  const changeFilter = (value: FilterValuesType, id: string) => {
+    let exactToDoList = allToDoLists.find(
+      (eachToDoList) => eachToDoList.id === id
+    );
+    if (exactToDoList) {
+      exactToDoList.filter = value;
+    }
+    setAllToDoLists([...allToDoLists]);
   };
 
-  const changeStatus = (id: string, isDone: boolean) => {
+  const changeStatus = (id: string, isDone: boolean, toDoListID: string) => {
+    let tasks = tasksObj[toDoListID];
     let task = tasks.find((task) => task.id === id);
     if (task) {
       task.isDone = isDone;
+      setTasksObj({ ...tasksObj });
     }
-    setTasks([...tasks]);
   };
 
-  let tasksForTodoList = tasks;
-
-  if (filter === 'completed') {
-    tasksForTodoList = tasks.filter((task) => task.isDone === true);
-  }
-  if (filter === 'active') {
-    tasksForTodoList = tasks.filter((task) => task.isDone === false);
-  }
-
-  let TODOLISTS: Array<ToDoListTypes> = [
-    { id: v1(), title: 'Cars', filter: 'all' },
-    { id: v1(), title: 'Watches', filter: 'active' },
-  ];
+  const themeSwitch = () => {
+    const appDiv = document.querySelector('.App');
+    appDiv?.classList.toggle('_dark');
+  };
 
   return (
     <div className="App">
-      {TODOLISTS.map((eachToDo) => (
-        <ToDoList
-          filter={eachToDo.filter}
-          title={eachToDo.title}
-          tasks={tasksForTodoList}
-          removeTask={removeTask}
-          addTask={addTask}
-          changeFilter={changeFilter}
-          changeTaskStatus={changeStatus}
-        />
-      ))}
-      <button
-        id="theme-button"
-        onClick={() => document.body.classList.toggle('_dark')}
-      >
+      {allToDoLists.length ? (
+        <div className="grid-container">
+          {allToDoLists.map((eachToDo) => {
+            let tasksForTodoList = tasksObj[eachToDo.id];
+
+            if (eachToDo.filter === 'completed') {
+              tasksForTodoList = tasksForTodoList.filter(
+                (task) => task.isDone === true
+              );
+            }
+            if (eachToDo.filter === 'active') {
+              tasksForTodoList = tasksForTodoList.filter(
+                (task) => task.isDone === false
+              );
+            }
+
+            return (
+              <ToDoList
+                key={eachToDo.id}
+                id={eachToDo.id}
+                filter={eachToDo.filter}
+                title={eachToDo.title}
+                tasks={tasksForTodoList}
+                removeTask={removeTask}
+                addTask={addTask}
+                changeFilter={changeFilter}
+                changeTaskStatus={changeStatus}
+                removeToDoList={removeToDoList}
+                changeTaskName={changeTaskName}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <h1 id="noTasksMessage">There are no task lists!</h1>
+      )}
+
+      <button id="theme-button" onClick={themeSwitch}>
         Theme
       </button>
+      <img id="background" src={image} alt="Background Image" />
     </div>
   );
 };

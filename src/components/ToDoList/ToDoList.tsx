@@ -1,6 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { FilterValuesType } from '../../App';
 import './ToDoList.scss';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { createJsxClosingElement } from 'typescript';
 
 export type TaskType = {
   id: string;
@@ -9,14 +11,17 @@ export type TaskType = {
 };
 
 type PropsType = {
+  id: string;
   title: string;
   tasks: Array<TaskType>;
   filter: FilterValuesType;
 
-  removeTask: (id: string) => void;
-  addTask: (title: string) => void;
-  changeFilter: (value: FilterValuesType) => void;
-  changeTaskStatus: (id: string, isDone: boolean) => void;
+  removeTask: (id: string, toDoListID: string) => void;
+  addTask: (title: string, toDoListID: string) => void;
+  changeFilter: (value: FilterValuesType, eachToDoID: string) => void;
+  changeTaskStatus: (id: string, isDone: boolean, toDoListID: string) => void;
+  removeToDoList: (id: string) => void;
+  changeTaskName: (toDoListID: string, id: string, value: string) => void;
 };
 
 const ToDoList = (props: PropsType) => {
@@ -29,7 +34,7 @@ const ToDoList = (props: PropsType) => {
   };
 
   const onEnterKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'Enter' && newTaskTitle.trim() !== '') {
+    if (event.code === 'Enter') {
       onAddButtonClickHandler();
     }
   };
@@ -38,21 +43,27 @@ const ToDoList = (props: PropsType) => {
     if (newTaskTitle.trim() === '') {
       setError('Title is required!');
     } else {
-      props.addTask(newTaskTitle.trim());
+      props.addTask(newTaskTitle.trim(), props.id);
       setNewTaskTitle('');
     }
   };
 
-  const allFilter = () => props.changeFilter('all');
-  const activeFilter = () => props.changeFilter('active');
-  const completedFilter = () => props.changeFilter('completed');
+  const allFilter = () => props.changeFilter('all', props.id);
+  const activeFilter = () => props.changeFilter('active', props.id);
+  const completedFilter = () => props.changeFilter('completed', props.id);
+
+  const removeToDoList = () => {
+    props.removeToDoList(props.id);
+  };
 
   return (
     <div className="ToDoList">
+      <button onClick={removeToDoList} id="remove-to-do">
+        X
+      </button>
       <h3>{props.title}</h3>
       <div className="input-wrapper">
         <input
-          // className='error'
           value={newTaskTitle}
           onChange={onInputChangeHandler}
           onKeyUp={onEnterKeyUpHandler}
@@ -62,37 +73,63 @@ const ToDoList = (props: PropsType) => {
         <button onClick={onAddButtonClickHandler}>+</button>
       </div>
       {error && <h4 className="error-message">{error}</h4>}
-      {/* <div className="error-message">Title is required!</div> */}
       <ul className="ToDoList__list">
-        {props.tasks.length ? (
-          props.tasks.map((task) => {
-            const removeTaskHandler = () => {
-              props.removeTask(task.id);
-            };
+        <TransitionGroup>
+          {props.tasks.length ? (
+            props.tasks.map((t) => {
+              const removeTaskHandler = () => {
+                props.removeTask(t.id, props.id);
+              };
 
-            const isDoneChangeHandler = (
-              event: ChangeEvent<HTMLInputElement>
-            ) => {
-              props.changeTaskStatus(task.id, event.currentTarget.checked);
-            };
+              const isDoneChangeHandler = (
+                event: ChangeEvent<HTMLInputElement>
+              ) => {
+                props.changeTaskStatus(
+                  t.id,
+                  event.currentTarget.checked,
+                  props.id
+                );
+              };
 
-            return (
-              <li className={task.isDone ? '_isDone' : ''} key={task.id}>
-                <input
-                  type="checkbox"
-                  checked={task.isDone}
-                  onChange={isDoneChangeHandler}
-                />
-                <span>{task.title}</span>
-                <button id="delete-btn" onClick={removeTaskHandler}>
-                  X
-                </button>
-              </li>
-            );
-          })
-        ) : (
-          <h4>There are no tasks!</h4>
-        )}
+              const taskTitleChange = (
+                event: ChangeEvent<HTMLInputElement>
+              ) => {
+                props.changeTaskName(props.id, t.id, event.currentTarget.value);
+              };
+
+              const liClassName: string[] = ['taskItem'];
+
+              return (
+                <CSSTransition key={t.id} timeout={500} classNames={'taskItem'}>
+                  <li
+                    className={
+                      t.isDone
+                        ? [...liClassName, '_isDone'].join(' ')
+                        : liClassName.join('')
+                    }
+                  >
+                    <input
+                      type="checkbox"
+                      checked={t.isDone}
+                      onChange={isDoneChangeHandler}
+                    />
+                    <input
+                      className="taskTitle"
+                      type="text"
+                      value={t.title}
+                      onChange={taskTitleChange}
+                    />
+                    <button id="delete-btn" onClick={removeTaskHandler}>
+                      X
+                    </button>
+                  </li>
+                </CSSTransition>
+              );
+            })
+          ) : (
+            <h4>There are no tasks!</h4>
+          )}
+        </TransitionGroup>
       </ul>
       <div className="buttons-wrapper">
         <button
