@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.scss';
 import ToDoList from './components/ToDoList/ToDoList';
-import image from './img/bg.jpg';
+import lightBg from './img/light-bg.jpg';
+import darkBg from './img/dark-bg.jpg';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
@@ -100,9 +101,13 @@ const App = () => {
     }
   };
 
+  let [bgImg, setBgImage] = useState(lightBg);
   const themeSwitch = () => {
     const appDiv = document.querySelector('.App');
     appDiv?.classList.toggle('_dark');
+
+    appDiv?.classList.contains('_dark') ? bgImg = darkBg : bgImg = lightBg;
+    setBgImage(bgImg)
   };
 
   return (
@@ -147,7 +152,7 @@ const App = () => {
       <button id="theme-button" onClick={themeSwitch}>
         Theme
       </button>
-      <img id="background" src={image} alt="Background Image" />
+      <img id="background" src={bgImg} alt="Background Image" />
     </div>
   );
 };

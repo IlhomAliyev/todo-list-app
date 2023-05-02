@@ -100,7 +100,7 @@ const ToDoList = (props: PropsType) => {
               const liClassName: string[] = ['taskItem'];
 
               return (
-                <CSSTransition key={t.id} timeout={500} classNames={'taskItem'}>
+                <CSSTransition key={t.id} timeout={350} classNames={'taskItem'}>
                   <li
                     className={
                       t.isDone
