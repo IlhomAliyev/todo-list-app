@@ -8,9 +8,7 @@
 # testing
 /coverage
 
-# gh-pages-only
-/src
-/public
+# /build
 
 # misc
 .DS_Store
