@@ -59,9 +59,10 @@
       }
 
       input[type='checkbox'] {
+        flex: 0 1 12px;
+        margin-left: 5px;
         cursor: pointer;
         border: 5px solid red;
-        flex: 0 1 13%;
         align-self: center;
         padding: 0;
         transform: scale(1.5);
