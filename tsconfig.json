@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "trash/react-app-env.d.ts", "trash/App.test.tsx"  ]
 }

@@ -1,8 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FilterValuesType } from '../../App';
 import './ToDoList.scss';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { createJsxClosingElement } from 'typescript';
 
 export type TaskType = {
   id: string;
