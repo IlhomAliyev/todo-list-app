@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { v1 } from 'uuid';
-import './App.scss';
 import ToDoList from './components/ToDoList/ToDoList';
-import lightBg from './img/light-bg.jpg';
 import darkBg from './img/dark-bg.jpg';
+import lightBg from './img/light-bg.jpg';
+import './styles/App.scss';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
@@ -58,7 +58,7 @@ const App = () => {
     setTasksObj({ ...tasksObj });
   };
   //! AIM
-  //todo нужно оптимизировать (при вводе обновляется весь объект tasksObj)
+  // нужно оптимизировать (при вводе обновляется весь объект tasksObj)
   const changeTaskName = (toDoListID: string, id: string, value: string) => {
     let task = tasksObj[toDoListID].find((t) => t.id === id);
     if (task) {
@@ -106,8 +106,8 @@ const App = () => {
     const appDiv = document.querySelector('.App');
     appDiv?.classList.toggle('_dark');
 
-    appDiv?.classList.contains('_dark') ? bgImg = darkBg : bgImg = lightBg;
-    setBgImage(bgImg)
+    appDiv?.classList.contains('_dark') ? (bgImg = darkBg) : (bgImg = lightBg);
+    setBgImage(bgImg);
   };
 
   return (
