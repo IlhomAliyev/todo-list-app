@@ -1,0 +1,48 @@
+// $primary-color: royalblue;
+// $text-color: white;
+// $back-color: #fff;
+// $back-blur-color: rgba(0, 0, 0, 0.5);
+
+:root {
+  --primary-color: teal;
+  --text-color: black;
+  --back-color: #1e1e1e;
+  --back-blur-color: rgba(255, 255, 255, 0.5);
+  --shadow-color: #EBEBEB;
+}
+
+.App._dark {
+  --primary-color: royalblue;
+  --text-color: white;
+  --back-color: white;
+  --back-blur-color: rgba(0, 0, 0, 0.5);
+  --shadow-color: #0D0D0D;
+}
+
+//? W3C standard (сейчас только для Firefox)
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) white;
+}
+
+//? Chrome/Edge/Safari
+
+*::-webkit-scrollbar {
+  height: 15px;
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: var(--back-blur-color);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 5px gray, inset 0 0 5px gray;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); //? цвет плашки
+  border-radius: 15px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: tomato; //? цвет плашки
+}

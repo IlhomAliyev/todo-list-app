@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { v1 } from 'uuid';
 import ToDoList from './components/ToDoList/ToDoList';
-import darkBg from './img/dark-bg.jpg';
-import lightBg from './img/light-bg.jpg';
+import darkBg from './img/dark.jpg';
+import lightBg from './img/light.jpg';
 import './styles/App.scss';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
@@ -17,11 +17,13 @@ const App = () => {
   const toDoListID1 = v1();
   const toDoListID2 = v1();
   const toDoListID3 = v1();
+  const toDoListID4 = v1();
 
   const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>([
     { id: toDoListID1, title: 'Cars', filter: 'all' },
     { id: toDoListID2, title: 'Watches', filter: 'all' },
     { id: toDoListID3, title: 'Movies', filter: 'all' },
+    { id: toDoListID4, title: 'Another List', filter: 'all' },
   ]);
 
   const [tasksObj, setTasksObj] = useState({
@@ -40,6 +42,13 @@ const App = () => {
       { id: v1(), title: 'Longines', isDone: true },
     ],
     [toDoListID3]: [
+      { id: v1(), title: 'Interstellar', isDone: true },
+      { id: v1(), title: 'Inception', isDone: true },
+      { id: v1(), title: 'Star Wars', isDone: false },
+      { id: v1(), title: 'The Lord of the Rings', isDone: false },
+      { id: v1(), title: 'Sherlock', isDone: true },
+    ],
+    [toDoListID4]: [
       { id: v1(), title: 'Interstellar', isDone: true },
       { id: v1(), title: 'Inception', isDone: true },
       { id: v1(), title: 'Star Wars', isDone: false },
@@ -112,42 +121,45 @@ const App = () => {
 
   return (
     <div className="App">
-      {allToDoLists.length ? (
-        <div className="grid-container">
-          {allToDoLists.map((eachToDo) => {
-            let tasksForTodoList = tasksObj[eachToDo.id];
+      <div className="container">
+        <div className="filter-element"></div>
+        {allToDoLists.length ? (
+          <div className="grid-container">
+            {allToDoLists.map((eachToDo) => {
+              let tasksForTodoList = tasksObj[eachToDo.id];
 
-            if (eachToDo.filter === 'completed') {
-              tasksForTodoList = tasksForTodoList.filter(
-                (task) => task.isDone === true
-              );
-            }
-            if (eachToDo.filter === 'active') {
-              tasksForTodoList = tasksForTodoList.filter(
-                (task) => task.isDone === false
-              );
-            }
+              if (eachToDo.filter === 'completed') {
+                tasksForTodoList = tasksForTodoList.filter(
+                  (task) => task.isDone === true
+                );
+              }
+              if (eachToDo.filter === 'active') {
+                tasksForTodoList = tasksForTodoList.filter(
+                  (task) => task.isDone === false
+                );
+              }
 
-            return (
-              <ToDoList
-                key={eachToDo.id}
-                id={eachToDo.id}
-                filter={eachToDo.filter}
-                title={eachToDo.title}
-                tasks={tasksForTodoList}
-                removeTask={removeTask}
-                addTask={addTask}
-                changeFilter={changeFilter}
-                changeTaskStatus={changeStatus}
-                removeToDoList={removeToDoList}
-                changeTaskName={changeTaskName}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <h1 id="noTasksMessage">There are no task lists!</h1>
-      )}
+              return (
+                <ToDoList
+                  key={eachToDo.id}
+                  id={eachToDo.id}
+                  filter={eachToDo.filter}
+                  title={eachToDo.title}
+                  tasks={tasksForTodoList}
+                  removeTask={removeTask}
+                  addTask={addTask}
+                  changeFilter={changeFilter}
+                  changeTaskStatus={changeStatus}
+                  removeToDoList={removeToDoList}
+                  changeTaskName={changeTaskName}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <h1 id="noTasksMessage">There are no task lists!</h1>
+        )}
+      </div>
 
       <button id="theme-button" onClick={themeSwitch}>
         Theme
