@@ -24,7 +24,8 @@ button {
   transition: 300ms;
 }
 
-input:focus, input:focus-visible {
+input:focus,
+input:focus-visible {
   border-color: tomato;
 }
 
@@ -52,38 +53,26 @@ button {
 
 .App {
   position: relative;
-  // padding: 80px 5px 0;
-  padding-top: 80px;
+  padding: 80px 30px 0;
   color: var(--text-color);
   height: 100vh;
   width: 100vw;
 }
 
 .grid-container {
-  // border: 3px solid green;
-  
-  padding: 3px 30px 20px;
-
+  padding: 3px 20px 20px;
   display: flex;
   align-items: flex-start;
-
   gap: 20px;
-  // display: grid;
-  // grid-template: auto / repeat(3, minmax(250px, 1fr));
-  // justify-content: center;
-  // align-items: start;
-
   overflow-x: scroll;
-  // overflow-y: hidden;
 }
 
 .container {
   position: relative;
-  // border: 1px solid blue;
+  // overflow: hidden;
 }
 
-.filter-element {
-  // border: 2px solid red;
+.shadow-elements {
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -92,43 +81,27 @@ button {
 
   &::before {
     content: '';
-    // border: 1px solid #000;
     height: 100%;
     width: 10px;
-    // background: linear-gradient( 90deg, rgba(255, 255, 255, 0.8043811274509804) 0%, rgba(255, 255, 255, 0) 100%);
     position: absolute;
     top: 0;
     left: 0;
     box-shadow: 0 0 20px 20px var(--shadow-color);
-    // background-color: var(--shadow-color);
     background-color: var(--shadow-color);
     backdrop-filter: blur(30px);
   }
 
   &::after {
     content: '';
-    // border: 1px solid #000;
     height: 100%;
     width: 10px;
-    // background: linear-gradient( 90deg, rgba(255, 255, 255, 0.8043811274509804) 0%, rgba(255, 255, 255, 0) 100%);
     position: absolute;
     top: 0;
     right: 0;
     box-shadow: 0 0 20px 20px var(--shadow-color);
-    // background-color: var(--shadow-color);
     background-color: var(--shadow-color);
     backdrop-filter: blur(30px);
   }
-}
-
-@media (max-width: 1050px) {
-  // .App {
-  //   padding: 50px 20px;
-  // }
-
-  // .grid-container {
-  //   grid-template: auto / 1fr;
-  // }
 }
 
 #noTasksMessage {
@@ -161,12 +134,10 @@ button {
 }
 
 #theme-button {
-  position: absolute;
-  left: 0px;
-  top: 0px;
+  position: fixed;
+  left: -5px;
+  top: -3px;
   border: 2px solid var(--primary-color);
-  border-top: 0;
-  border-left: 0;
   border-radius: 0 0 10px 0;
 
   &:hover {
