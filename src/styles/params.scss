@@ -6,19 +6,28 @@
 :root {
   --primary-color: teal;
   --text-color: black;
-  --back-color: #1e1e1e;
+  --back-color: white;
   --back-blur-color: rgba(255, 255, 255, 0.5);
-  --shadow-color: #EBEBEB;
+  --shadow-color: white;
 }
 
-.App._dark {
+body._dark {
   --primary-color: royalblue;
   --text-color: white;
-  --back-color: white;
+  --back-color: #181818;
   --back-blur-color: rgba(0, 0, 0, 0.5);
-  --shadow-color: #0D0D0D;
-  // --shadow-color: #282828;
+  --shadow-color: #181818;
 }
+
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --primary-color: royalblue;
+//     --text-color: white;
+//     --back-color: #181818;
+//     --back-blur-color: rgba(0, 0, 0, 0.5);
+//     --shadow-color: #181818;
+//   }
+// }
 
 //? W3C standard (сейчас только для Firefox)
 * {

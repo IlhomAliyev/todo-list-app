@@ -8,8 +8,9 @@
 }
 
 body {
-  background-color: white;
+  background-color: var(--back-color);
   font-family: 'Montserrat';
+  font-size: 16px;
 }
 
 input,
@@ -21,7 +22,7 @@ button {
   background-color: transparent;
   color: inherit;
   outline: 0;
-  transition: 300ms;
+  transition: 250ms;
 }
 
 input:focus,
@@ -53,7 +54,6 @@ button {
 
 .App {
   position: relative;
-  // padding: 80px 20px 0;
   padding-top: 80px;
   color: var(--text-color);
   height: 100vh;
@@ -78,7 +78,6 @@ button {
 
 .container {
   position: relative;
-  // overflow: hidden;
 }
 
 .shadow-elements {

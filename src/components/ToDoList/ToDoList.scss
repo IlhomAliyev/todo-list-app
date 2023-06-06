@@ -4,28 +4,37 @@
   padding: 20px;
   background-color: var(--back-blur-color);
   backdrop-filter: blur(3px);
-  box-shadow: 0 0 5px gray, inset 0 0 5px gray;
+  box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
 
   #remove-to-do {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 20px;
+    right: 20px;
 
     border-radius: 10px;
-    padding: 5px;
+    padding: 3px;
     height: 30px;
     width: 30px;
-    margin-left: 10px;
     border: 0;
-    box-shadow: 0 0 5px gray, inset 0 0 5px gray;
+    box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
 
     &:hover {
       background-color: tomato;
     }
   }
 
-  h3 {
+  .todoListName {
+    font-weight: bold;
+    font-size: 18px;
     margin-bottom: 10px;
+    padding: 4px 5px;
+    border: none;
+    border-radius: 5px;
+    width: fit-content;
+
+    &:is(:hover, :focus) {
+      box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
+    }
   }
 
   .AddItemForm {
@@ -41,12 +50,15 @@
       border: 2px solid var(--primary-color);
       border-radius: 10px;
       padding: 5px;
-      // transition: 300ms;
 
       display: flex;
       justify-content: space-between;
-      gap: 5px;
-      width: 100%;
+      align-items: center;
+      gap: 7px;
+
+      &._isDone {
+        opacity: 0.5;
+      }
 
       &:hover {
         background-color: var(--primary-color);
@@ -57,31 +69,22 @@
         margin-bottom: 10px;
       }
 
-      &._isDone {
-        opacity: 0.5;
-      }
-
       input[type='checkbox'] {
         flex: 0 1 8%;
         margin-left: 5px;
         cursor: pointer;
-        border: 5px solid red;
         align-self: center;
         padding: 0;
         transform: scale(1.5);
       }
 
-      input.taskTitle {
+      .taskTitle {
         flex: 1 0 auto;
-
-        padding: 5px 15px;
         text-align: center;
         border-radius: 5px;
-        padding: 0;
         border: none;
-        transition: 300ms;
 
-        &:hover {
+        &:is(:hover, :focus) {
           box-shadow: 0 0 5px lightgray, inset 0 0 5px lightgray;
         }
       }
@@ -89,11 +92,8 @@
       #delete-btn {
         flex: 0 1 13%;
 
-        border-radius: 5px;
-        padding: 5px;
-        height: 30px;
-        width: 30px;
         border: 2px solid tomato;
+        border-radius: 5px;
 
         &:hover {
           background-color: tomato;
