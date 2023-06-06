@@ -1,6 +1,7 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FilterValuesType } from '../../App';
+import AddItemForm from '../AddItemForm/AddItemForm';
 import './ToDoList.scss';
 
 export type TaskType = {
@@ -16,7 +17,7 @@ type PropsType = {
   filter: FilterValuesType;
 
   removeTask: (id: string, toDoListID: string) => void;
-  addTask: (title: string, toDoListID: string) => void;
+  addItem: (title: string, toDoListID: string) => void;
   changeFilter: (value: FilterValuesType, eachToDoID: string) => void;
   changeTaskStatus: (id: string, isDone: boolean, toDoListID: string) => void;
   removeToDoList: (id: string) => void;
@@ -24,35 +25,14 @@ type PropsType = {
 };
 
 const ToDoList = (props: PropsType) => {
-  const [newTaskTitle, setNewTaskTitle] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  const onInputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(event.target.value);
-    setError(null);
-  };
-
-  const onEnterKeyUpHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === 'Enter') {
-      onAddButtonClickHandler();
-    }
-  };
-
-  const onAddButtonClickHandler = () => {
-    if (newTaskTitle.trim() === '') {
-      setError('Title is required!');
-    } else {
-      props.addTask(newTaskTitle.trim(), props.id);
-      setNewTaskTitle('');
-    }
-  };
-
   const allFilter = () => props.changeFilter('all', props.id);
   const activeFilter = () => props.changeFilter('active', props.id);
   const completedFilter = () => props.changeFilter('completed', props.id);
-
   const removeToDoList = () => {
     props.removeToDoList(props.id);
+  };
+  const addTask = (title: string) => {
+    props.addItem(title, props.id);
   };
 
   return (
@@ -61,20 +41,10 @@ const ToDoList = (props: PropsType) => {
         X
       </button>
       <h3>{props.title}</h3>
-      <div className="input-wrapper">
-        <input
-          value={newTaskTitle}
-          onChange={onInputChangeHandler}
-          onKeyUp={onEnterKeyUpHandler}
-          type="text"
-          placeholder="Type..."
-        />
-        <button onClick={onAddButtonClickHandler}>+</button>
-      </div>
-      {error && <h4 className="error-message">{error}</h4>}
+      <AddItemForm inputPlaceholder="Task name..." addItem={addTask} />
       <ul className="ToDoList__list">
         <TransitionGroup>
-          {props.tasks.length ? (
+          {props.tasks.length !== 0 &&
             props.tasks.map((t) => {
               const removeTaskHandler = () => {
                 props.removeTask(t.id, props.id);
@@ -124,11 +94,9 @@ const ToDoList = (props: PropsType) => {
                   </li>
                 </CSSTransition>
               );
-            })
-          ) : (
-            <h4>There are no tasks!</h4>
-          )}
+            })}
         </TransitionGroup>
+        {props.tasks.length === 0 && <h4>There are no tasks!</h4>}
       </ul>
       <div className="buttons-wrapper">
         <button

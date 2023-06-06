@@ -6,9 +6,6 @@
   backdrop-filter: blur(3px);
   box-shadow: 0 0 5px gray, inset 0 0 5px gray;
 
-  // display: flex;
-  // flex-direction: column;
-
   #remove-to-do {
     position: absolute;
     top: 8px;
@@ -28,6 +25,10 @@
   }
 
   h3 {
+    margin-bottom: 10px;
+  }
+
+  .AddItemForm {
     margin-bottom: 10px;
   }
 
@@ -101,25 +102,25 @@
   }
 }
 
-.input-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
+.taskItem-enter {
+  opacity: 0;
+  transform: translateY(-50px);
+}
 
-  input {
-    flex: 1 0 auto;
-    padding: 10px 15px;
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-  }
+.taskItem-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: all 200ms ease-in;
+}
 
-  button {
-    font-size: 24px;
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-  }
+.taskItem-exit {
+  opacity: 1;
+}
+
+.taskItem-exit-active {
+  opacity: 0;
+  transform: scale(0);
+  transition: all 120ms ease-in;
 }
 
 .buttons-wrapper {

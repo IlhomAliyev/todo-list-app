@@ -1,73 +1,29 @@
 import { useState } from 'react';
 import { v1 } from 'uuid';
+import AddItemForm from './components/AddItemForm/AddItemForm';
 import ToDoList from './components/ToDoList/ToDoList';
+import {
+  ToDoListTypes,
+  allToDoListDefault,
+  tasksObjectDefault,
+} from './data/tasks';
 import darkBg from './img/dark.jpg';
 import lightBg from './img/light.jpg';
 import './styles/App.scss';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
-export type ToDoListTypes = {
-  id: string;
-  title: string;
-  filter: FilterValuesType;
-};
-
 const App = () => {
-  const toDoListID1 = v1();
-  const toDoListID2 = v1();
-  const toDoListID3 = v1();
-  const toDoListID4 = v1();
+  let [bgImg, setBgImage] = useState(lightBg);
+  const themeSwitch = () => {
+    const appDiv = document.querySelector('.App');
+    appDiv?.classList.toggle('_dark');
 
-  const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>([
-    { id: toDoListID1, title: 'Cars', filter: 'all' },
-    { id: toDoListID2, title: 'Watches', filter: 'all' },
-    { id: toDoListID3, title: 'Movies', filter: 'all' },
-    { id: toDoListID4, title: 'Another List', filter: 'all' },
-  ]);
-
-  const [tasksObj, setTasksObj] = useState({
-    [toDoListID1]: [
-      { id: v1(), title: 'Mercedes-Benz', isDone: false },
-      { id: v1(), title: 'AUDI', isDone: true },
-      { id: v1(), title: 'BMW', isDone: true },
-      { id: v1(), title: 'Tesla', isDone: false },
-      { id: v1(), title: 'Rolls-Royce', isDone: false },
-    ],
-    [toDoListID2]: [
-      { id: v1(), title: 'CASIO', isDone: true },
-      { id: v1(), title: 'Patek Philippe', isDone: true },
-      { id: v1(), title: 'OMEGA', isDone: false },
-      { id: v1(), title: 'TISSOT', isDone: false },
-      { id: v1(), title: 'Longines', isDone: true },
-    ],
-    [toDoListID3]: [
-      { id: v1(), title: 'Interstellar', isDone: true },
-      { id: v1(), title: 'Inception', isDone: true },
-      { id: v1(), title: 'Star Wars', isDone: false },
-      { id: v1(), title: 'The Lord of the Rings', isDone: false },
-      { id: v1(), title: 'Sherlock', isDone: true },
-    ],
-    [toDoListID4]: [
-      { id: v1(), title: 'Interstellar', isDone: true },
-      { id: v1(), title: 'Inception', isDone: true },
-      { id: v1(), title: 'Star Wars', isDone: false },
-      { id: v1(), title: 'The Lord of the Rings', isDone: false },
-      { id: v1(), title: 'Sherlock', isDone: true },
-    ],
-  });
-
-  const removeToDoList = (toDoListID: string) => {
-    let filteredAllToDoLists = allToDoLists.filter(
-      (exactToDoList) => exactToDoList.id !== toDoListID
-    );
-    setAllToDoLists(filteredAllToDoLists);
-
-    delete tasksObj[toDoListID];
-    setTasksObj({ ...tasksObj });
+    appDiv?.classList.contains('_dark') ? (bgImg = darkBg) : (bgImg = lightBg);
+    setBgImage(bgImg);
   };
-  //! AIM
-  // нужно оптимизировать (при вводе обновляется весь объект tasksObj)
+
+  //todo нужно оптимизировать (при вводе обновляется весь объект tasksObj)
   const changeTaskName = (toDoListID: string, id: string, value: string) => {
     let task = tasksObj[toDoListID].find((t) => t.id === id);
     if (task) {
@@ -75,7 +31,31 @@ const App = () => {
       setTasksObj({ ...tasksObj }); //todo
     }
   };
-  //! AIM
+
+  const [allToDoLists, setAllToDoLists] =
+    useState<Array<ToDoListTypes>>(allToDoListDefault);
+  const [tasksObj, setTasksObj] = useState(tasksObjectDefault);
+
+  const removeToDoList = (toDoListID: string) => {
+    let filteredAllToDoLists = allToDoLists.filter(
+      (tdl) => tdl.id !== toDoListID
+    );
+    setAllToDoLists(filteredAllToDoLists);
+
+    delete tasksObj[toDoListID];
+    setTasksObj({ ...tasksObj });
+  };
+
+  const addToDoList = (title: string) => {
+    let newToDoList: ToDoListTypes = { id: v1(), title: title, filter: 'all' };
+    let updatedToDoLists = [newToDoList, ...allToDoLists];
+
+    let newTasksObj = { [newToDoList.id]: [], ...tasksObj };
+
+    setTasksObj(newTasksObj);
+    setAllToDoLists(updatedToDoLists);
+  };
+
   const removeTask = (id: string, toDoListID: string) => {
     let tasks = tasksObj[toDoListID];
     let filteredTasks = tasks.filter((task) => task.id !== id);
@@ -83,7 +63,7 @@ const App = () => {
     setTasksObj({ ...tasksObj });
   };
 
-  const addTask = (title: string, toDoListID: string) => {
+  const addItem = (title: string, toDoListID: string) => {
     let newTask = { id: v1(), title: title, isDone: false };
     let tasks = tasksObj[toDoListID];
     let newTasks = [newTask, ...tasks];
@@ -92,9 +72,7 @@ const App = () => {
   };
 
   const changeFilter = (value: FilterValuesType, id: string) => {
-    let exactToDoList = allToDoLists.find(
-      (eachToDoList) => eachToDoList.id === id
-    );
+    let exactToDoList = allToDoLists.find((tdl) => tdl.id === id);
     if (exactToDoList) {
       exactToDoList.filter = value;
     }
@@ -110,30 +88,26 @@ const App = () => {
     }
   };
 
-  let [bgImg, setBgImage] = useState(lightBg);
-  const themeSwitch = () => {
-    const appDiv = document.querySelector('.App');
-    appDiv?.classList.toggle('_dark');
-
-    appDiv?.classList.contains('_dark') ? (bgImg = darkBg) : (bgImg = lightBg);
-    setBgImage(bgImg);
-  };
-
   return (
     <div className="App">
+      <AddItemForm
+        inputPlaceholder="Name of the task list"
+        addItem={addToDoList}
+      />
       <div className="container">
-        <div className="filter-element"></div>
+        <div className="shadow-elements"></div>
         {allToDoLists.length ? (
           <div className="grid-container">
-            {allToDoLists.map((eachToDo) => {
-              let tasksForTodoList = tasksObj[eachToDo.id];
+            {allToDoLists.map((tdl) => {
+              let tasksForTodoList = tasksObj[tdl.id];
 
-              if (eachToDo.filter === 'completed') {
+              if (tdl.filter === 'completed') {
                 tasksForTodoList = tasksForTodoList.filter(
                   (task) => task.isDone === true
                 );
               }
-              if (eachToDo.filter === 'active') {
+
+              if (tdl.filter === 'active') {
                 tasksForTodoList = tasksForTodoList.filter(
                   (task) => task.isDone === false
                 );
@@ -141,13 +115,13 @@ const App = () => {
 
               return (
                 <ToDoList
-                  key={eachToDo.id}
-                  id={eachToDo.id}
-                  filter={eachToDo.filter}
-                  title={eachToDo.title}
+                  key={tdl.id}
+                  id={tdl.id}
+                  filter={tdl.filter}
+                  title={tdl.title}
                   tasks={tasksForTodoList}
                   removeTask={removeTask}
-                  addTask={addTask}
+                  addItem={addItem}
                   changeFilter={changeFilter}
                   changeTaskStatus={changeStatus}
                   removeToDoList={removeToDoList}
