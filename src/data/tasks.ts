@@ -11,6 +11,7 @@ export const allToDoListDefault: ToDoListTypes[] = [
   { id: v1(), title: 'Cars', filter: 'all' },
   { id: v1(), title: 'Watches', filter: 'all' },
   { id: v1(), title: 'Movies', filter: 'all' },
+  { id: v1(), title: 'FAANG / MAANG', filter: 'all' },
   { id: v1(), title: 'Programming languages', filter: 'all' },
 ];
 
@@ -37,6 +38,13 @@ export const tasksObjectDefault = {
     { id: v1(), title: 'Sherlock', isDone: true },
   ],
   [allToDoListDefault[3].id]: [
+    { id: v1(), title: 'Meta / Facebook', isDone: false },
+    { id: v1(), title: 'Apple', isDone: false },
+    { id: v1(), title: 'Amazon', isDone: false },
+    { id: v1(), title: 'Netflix', isDone: false },
+    { id: v1(), title: 'Google', isDone: false },
+  ],
+  [allToDoListDefault[4].id]: [
     { id: v1(), title: 'Rust', isDone: false },
     { id: v1(), title: 'Go', isDone: false },
     { id: v1(), title: 'Python', isDone: false },
