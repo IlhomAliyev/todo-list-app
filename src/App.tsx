@@ -34,12 +34,11 @@ const App = () => {
 
   const [allToDoLists, setAllToDoLists] =
     useState<Array<ToDoListTypes>>(allToDoListDefault);
-
   const [tasksObj, setTasksObj] = useState(tasksObjectDefault);
 
   const removeToDoList = (toDoListID: string) => {
     let filteredAllToDoLists = allToDoLists.filter(
-      (exactToDoList) => exactToDoList.id !== toDoListID
+      (tdl) => tdl.id !== toDoListID
     );
     setAllToDoLists(filteredAllToDoLists);
 
@@ -48,12 +47,13 @@ const App = () => {
   };
 
   const addToDoList = (title: string) => {
-    let newToDoList: ToDoListTypes = {
-      id: v1(),
-      title: title,
-      filter: 'all',
-    };
-    setAllToDoLists([newToDoList, ...allToDoLists]);
+    let newToDoList: ToDoListTypes = { id: v1(), title: title, filter: 'all' };
+    let updatedToDoLists = [newToDoList, ...allToDoLists];
+
+    let newTasksObj = { [newToDoList.id]: [], ...tasksObj };
+
+    setTasksObj(newTasksObj);
+    setAllToDoLists(updatedToDoLists);
   };
 
   const removeTask = (id: string, toDoListID: string) => {
@@ -72,9 +72,7 @@ const App = () => {
   };
 
   const changeFilter = (value: FilterValuesType, id: string) => {
-    let exactToDoList = allToDoLists.find(
-      (eachToDoList) => eachToDoList.id === id
-    );
+    let exactToDoList = allToDoLists.find((tdl) => tdl.id === id);
     if (exactToDoList) {
       exactToDoList.filter = value;
     }

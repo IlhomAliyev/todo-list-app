@@ -7,15 +7,6 @@ export type ToDoListTypes = {
   filter: FilterValuesType;
 };
 
-// export const toDoListIDs = {
-//   ID1: v1(),
-//   ID2: v1(),
-//   ID3: v1(),
-//   ID4: v1(),
-// };
-
-//? PAUSE 05.06.2023
-
 export const allToDoListDefault: ToDoListTypes[] = [
   { id: v1(), title: 'Cars', filter: 'all' },
   { id: v1(), title: 'Watches', filter: 'all' },

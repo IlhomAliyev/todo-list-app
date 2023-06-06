@@ -59,6 +59,10 @@ button {
   width: 100vw;
 }
 
+.AddItemForm {
+  margin-bottom: 30px;
+}
+
 .grid-container {
   padding: 3px 20px 20px;
   display: flex;
@@ -110,27 +114,6 @@ button {
   border: 3px solid red;
   border-radius: 20px;
   padding: 10px 20px;
-}
-
-.taskItem-enter {
-  opacity: 0;
-  transform: translateY(-100px);
-}
-
-.taskItem-enter-active {
-  opacity: 1;
-  transform: translateY(0px);
-  transition: all 300ms ease-in;
-}
-
-.taskItem-exit {
-  opacity: 1;
-}
-
-.taskItem-exit-active {
-  opacity: 0;
-  transform: translateY(200px);
-  transition: all 300ms ease-in;
 }
 
 #theme-button {

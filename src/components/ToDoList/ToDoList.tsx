@@ -31,7 +31,6 @@ const ToDoList = (props: PropsType) => {
   const removeToDoList = () => {
     props.removeToDoList(props.id);
   };
-
   const addTask = (title: string) => {
     props.addItem(title, props.id);
   };
@@ -42,13 +41,10 @@ const ToDoList = (props: PropsType) => {
         X
       </button>
       <h3>{props.title}</h3>
-      <AddItemForm
-        inputPlaceholder="Task name..."
-        addItem={addTask}
-      />
+      <AddItemForm inputPlaceholder="Task name..." addItem={addTask} />
       <ul className="ToDoList__list">
         <TransitionGroup>
-          {props.tasks.length ? (
+          {props.tasks.length !== 0 &&
             props.tasks.map((t) => {
               const removeTaskHandler = () => {
                 props.removeTask(t.id, props.id);
@@ -98,11 +94,9 @@ const ToDoList = (props: PropsType) => {
                   </li>
                 </CSSTransition>
               );
-            })
-          ) : (
-            <h4>There are no tasks!</h4>
-          )}
+            })}
         </TransitionGroup>
+        {props.tasks.length === 0 && <h4>There are no tasks!</h4>}
       </ul>
       <div className="buttons-wrapper">
         <button

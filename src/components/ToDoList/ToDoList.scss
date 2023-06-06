@@ -28,6 +28,10 @@
     margin-bottom: 10px;
   }
 
+  .AddItemForm {
+    margin-bottom: 10px;
+  }
+
   &__list {
     margin-bottom: 10px;
 
@@ -96,6 +100,27 @@
       }
     }
   }
+}
+
+.taskItem-enter {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.taskItem-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: all 200ms ease-in;
+}
+
+.taskItem-exit {
+  opacity: 1;
+}
+
+.taskItem-exit-active {
+  opacity: 0;
+  transform: scale(0);
+  transition: all 120ms ease-in;
 }
 
 .buttons-wrapper {
