@@ -1,29 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v1 } from 'uuid';
 import AddItemForm from './components/AddItemForm/AddItemForm';
-import ToDoList from './components/ToDoList/ToDoList';
+import ToDoList, { TaskType } from './components/ToDoList/ToDoList';
 import {
   ToDoListTypes,
   allToDoListDefault,
   tasksObjectDefault,
 } from './data/tasks';
-import darkBg from './img/dark.jpg';
-import lightBg from './img/light.jpg';
 import './styles/App.scss';
 
 export type FilterValuesType = 'all' | 'completed' | 'active';
 
-const App = () => {
-  let [bgImg, setBgImage] = useState(lightBg);
-  const themeSwitch = () => {
-    const appDiv = document.querySelector('.App');
-    appDiv?.classList.toggle('_dark');
+export type TasksStateType = {
+  [key: string]: Array<TaskType>;
+};
 
-    appDiv?.classList.contains('_dark') ? (bgImg = darkBg) : (bgImg = lightBg);
-    setBgImage(bgImg);
+const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const themeSwitch = () => {
+    setDarkMode(!darkMode);
   };
 
-  //todo нужно оптимизировать (при вводе обновляется весь объект tasksObj)
+  useEffect(() => {
+    darkMode
+      ? (document.body.className = '_dark')
+      : (document.body.className = '');
+  }, [darkMode]);
+
+  const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>(allToDoListDefault);
+  const [tasksObj, setTasksObj] = useState<TasksStateType>(tasksObjectDefault);
+
+  //todo ye;yj jgnbvbpbhjdfnm (ghb ddjlt j,yjdkztncz dtcm j,]trn ефылыЩио)
   const changeTaskName = (toDoListID: string, id: string, value: string) => {
     let task = tasksObj[toDoListID].find((t) => t.id === id);
     if (task) {
@@ -32,9 +40,13 @@ const App = () => {
     }
   };
 
-  const [allToDoLists, setAllToDoLists] =
-    useState<Array<ToDoListTypes>>(allToDoListDefault);
-  const [tasksObj, setTasksObj] = useState(tasksObjectDefault);
+  const changeToDoListName = (toDoListID: string, value: string) => {
+    let exactToDoList = allToDoLists.find((tdl) => tdl.id === toDoListID);
+    if (exactToDoList) {
+      exactToDoList.title = value;
+      setAllToDoLists([...allToDoLists]);
+    }
+  };
 
   const removeToDoList = (toDoListID: string) => {
     let filteredAllToDoLists = allToDoLists.filter(
@@ -48,7 +60,7 @@ const App = () => {
 
   const addToDoList = (title: string) => {
     let newToDoList: ToDoListTypes = { id: v1(), title: title, filter: 'all' };
-    let updatedToDoLists = [newToDoList, ...allToDoLists];
+    let updatedToDoLists: ToDoListTypes[] = [newToDoList, ...allToDoLists];
 
     let newTasksObj = { [newToDoList.id]: [], ...tasksObj };
 
@@ -126,6 +138,7 @@ const App = () => {
                   changeTaskStatus={changeStatus}
                   removeToDoList={removeToDoList}
                   changeTaskName={changeTaskName}
+                  changeToDoListName={changeToDoListName}
                 />
               );
             })}
@@ -138,7 +151,6 @@ const App = () => {
       <button id="theme-button" onClick={themeSwitch}>
         Theme
       </button>
-      <img id="background" src={bgImg} alt="Background Image" />
     </div>
   );
 };

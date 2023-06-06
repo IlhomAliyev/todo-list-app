@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FilterValuesType } from '../../App';
 import AddItemForm from '../AddItemForm/AddItemForm';
+import EditableSpan from '../EditableSpan/EditableSpan';
 import './ToDoList.scss';
 
 export type TaskType = {
@@ -22,6 +23,7 @@ type PropsType = {
   changeTaskStatus: (id: string, isDone: boolean, toDoListID: string) => void;
   removeToDoList: (id: string) => void;
   changeTaskName: (toDoListID: string, id: string, value: string) => void;
+  changeToDoListName: (toDoListID: string, value: string) => void;
 };
 
 const ToDoList = (props: PropsType) => {
@@ -34,13 +36,20 @@ const ToDoList = (props: PropsType) => {
   const addTask = (title: string) => {
     props.addItem(title, props.id);
   };
+  const changeToDoListNameHandler = (value: string) => {
+    props.changeToDoListName(props.id, value);
+  };
 
   return (
     <div className="ToDoList">
       <button onClick={removeToDoList} id="remove-to-do">
         X
       </button>
-      <h3>{props.title}</h3>
+      <EditableSpan
+        elemClassName="todoListName"
+        title={props.title}
+        onChangeHandler={changeToDoListNameHandler}
+      />
       <AddItemForm inputPlaceholder="Task name..." addItem={addTask} />
       <ul className="ToDoList__list">
         <TransitionGroup>
@@ -60,10 +69,8 @@ const ToDoList = (props: PropsType) => {
                 );
               };
 
-              const taskTitleChange = (
-                event: ChangeEvent<HTMLInputElement>
-              ) => {
-                props.changeTaskName(props.id, t.id, event.currentTarget.value);
+              const taskTitleChange = (newTitle: string) => {
+                props.changeTaskName(props.id, t.id, newTitle);
               };
 
               const liClassName: string[] = ['taskItem'];
@@ -82,11 +89,10 @@ const ToDoList = (props: PropsType) => {
                       checked={t.isDone}
                       onChange={isDoneChangeHandler}
                     />
-                    <input
-                      className="taskTitle"
-                      type="text"
-                      value={t.title}
-                      onChange={taskTitleChange}
+                    <EditableSpan
+                      elemClassName="taskTitle"
+                      title={t.title}
+                      onChangeHandler={taskTitleChange}
                     />
                     <button id="delete-btn" onClick={removeTaskHandler}>
                       X
