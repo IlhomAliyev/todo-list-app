@@ -97,7 +97,7 @@ const App = () => {
       <div className="container">
         <div className="shadow-elements"></div>
         {allToDoLists.length ? (
-          <div className="grid-container">
+          <div className="tasks-wrapper">
             {allToDoLists.map((tdl) => {
               let tasksForTodoList = tasksObj[tdl.id];
 
