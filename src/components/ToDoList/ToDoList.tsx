@@ -36,6 +36,7 @@ const ToDoList = (props: PropsType) => {
   const addTask = (title: string) => {
     props.addItem(title, props.id);
   };
+
   const changeToDoListNameHandler = (value: string) => {
     props.changeToDoListName(props.id, value);
   };
@@ -73,17 +74,9 @@ const ToDoList = (props: PropsType) => {
                 props.changeTaskName(props.id, t.id, newTitle);
               };
 
-              const liClassName: string[] = ['taskItem'];
-
               return (
                 <CSSTransition key={t.id} timeout={350} classNames={'taskItem'}>
-                  <li
-                    className={
-                      t.isDone
-                        ? [...liClassName, '_isDone'].join(' ')
-                        : liClassName.join('')
-                    }
-                  >
+                  <li className={t.isDone ? 'taskItem' : 'taskItem _isDone'}>
                     <input
                       type="checkbox"
                       checked={t.isDone}

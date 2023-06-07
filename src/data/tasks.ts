@@ -34,7 +34,7 @@ export const tasksObjectDefault = {
     { id: v1(), title: 'Interstellar', isDone: true },
     { id: v1(), title: 'Inception', isDone: true },
     { id: v1(), title: 'Star Wars', isDone: false },
-    { id: v1(), title: 'The Lord of the Rings', isDone: false },
+    { id: v1(), title: 'Tenet', isDone: false },
     { id: v1(), title: 'Sherlock', isDone: true },
   ],
   [allToDoListDefault[3].id]: [
