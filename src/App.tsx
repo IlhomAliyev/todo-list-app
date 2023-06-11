@@ -28,7 +28,8 @@ const App = () => {
       : (document.body.className = '');
   }, [darkMode]);
 
-  const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>(allToDoListDefault);
+  const [allToDoLists, setAllToDoLists] =
+    useState<Array<ToDoListTypes>>(allToDoListDefault);
   const [tasksObj, setTasksObj] = useState<TasksStateType>(tasksObjectDefault);
 
   //todo ye;yj jgnbvbpbhjdfnm (ghb ddjlt j,yjdkztncz dtcm j,]trn ефылыЩио)
@@ -61,9 +62,7 @@ const App = () => {
   const addToDoList = (title: string) => {
     let newToDoList: ToDoListTypes = { id: v1(), title: title, filter: 'all' };
     let updatedToDoLists: ToDoListTypes[] = [newToDoList, ...allToDoLists];
-
     let newTasksObj = { [newToDoList.id]: [], ...tasksObj };
-
     setTasksObj(newTasksObj);
     setAllToDoLists(updatedToDoLists);
   };
