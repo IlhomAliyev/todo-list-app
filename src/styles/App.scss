@@ -72,7 +72,7 @@ button {
   overflow-x: scroll;
 
   .ToDoList {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
   }
 }
 
@@ -89,7 +89,6 @@ button {
 
   &::before {
     content: '';
-    // border: 1px solid red;
     height: 100%;
     width: 5px;
     position: absolute;
@@ -102,7 +101,6 @@ button {
 
   &::after {
     content: '';
-    // border: 1px solid red;
     height: 100%;
     width: 5px;
     position: absolute;
@@ -115,9 +113,13 @@ button {
 }
 
 #noTasksMessage {
-  color: red;
+  margin: 0 auto;
+  width: fit-content;
+  font-weight: 500;
+  font-size: 20px;
   text-align: center;
-  border: 3px solid red;
+  border: 2px solid red;
+  color: red;
   border-radius: 20px;
   padding: 10px 20px;
 }

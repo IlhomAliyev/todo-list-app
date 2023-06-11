@@ -95,7 +95,7 @@ const ToDoList = (props: PropsType) => {
               );
             })}
         </TransitionGroup>
-        {props.tasks.length === 0 && <h4>There are no tasks!</h4>}
+        {props.tasks.length === 0 && <h4 id="noTasks">There are no tasks!</h4>}
       </ul>
       <div className="buttons-wrapper">
         <button

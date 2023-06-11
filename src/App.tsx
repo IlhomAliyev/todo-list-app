@@ -28,7 +28,8 @@ const App = () => {
       : (document.body.className = '');
   }, [darkMode]);
 
-  const [allToDoLists, setAllToDoLists] = useState<Array<ToDoListTypes>>(allToDoListDefault);
+  const [allToDoLists, setAllToDoLists] =
+    useState<Array<ToDoListTypes>>(allToDoListDefault);
   const [tasksObj, setTasksObj] = useState<TasksStateType>(tasksObjectDefault);
 
   //todo ye;yj jgnbvbpbhjdfnm (ghb ddjlt j,yjdkztncz dtcm j,]trn ефылыЩио)
