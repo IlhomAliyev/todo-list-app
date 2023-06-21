@@ -76,7 +76,7 @@ const ToDoList = (props: PropsType) => {
 
               return (
                 <CSSTransition key={t.id} timeout={350} classNames={'taskItem'}>
-                  <li className={t.isDone ? 'taskItem' : 'taskItem _isDone'}>
+                  <li className={t.isDone ? 'taskItem _isDone' : 'taskItem'}>
                     <input
                       type="checkbox"
                       checked={t.isDone}
